@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="col-sm-6" *ngIf="!tabela && !shfunc">
+    <br />
+    <app-titulo [titulo]="(deptSelecionado.id === 0 ? 'Novo Departamento' : 'Cód. Departamento: ' + deptSelecionado.id)">
+      <button class="btn btn-sm btn-outline-danger" (click)="voltar()">
+        Fechar
+      </button>
+    </app-titulo>
+
+    <form [formGroup]="deptForm">
+      <div class="mb-3">
+        <label for="formGroupExampleInput" class="form-label">Nome</label>
+        <input
+          type="text"
+          formControlName="nome"
+          class="form-control"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="formGroupExampleInput2" class="form-label">Sigla</label>
+        <input
+          type="text"
+          formControlName="sigla"
+          class="form-control"
+        />
+      </div>
+    </form>
+    <div class="form-group">
+      <hr>
+      <button class="btn btn-sm btn-success" (click)="deptSubmit()" [disabled]="!deptForm.valid">Salvar</button>
+    </div>
+  </div>
+
+
+
+  <div class="col-sm-6" *ngIf="!tabela && shfunc">
+    <br>
+    <app-titulo [titulo]="'Funcionários de ' + deptSelecionado.nome">
+      <button class="btn btn-sm btn-outline-danger" (click)="voltar()">
+        Fechar
+      </button>
+    </app-titulo>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+          <th scope="col">RG</th>
+          <th scope="col">Departamento</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr *ngFor="let func of funcs">
+          <td scope="row">{{func.id}}</td>
+          <td>{{func.nome}}</td>
+          <td>{{func.rg}}</td>
+          <td>{{func.departamentoid}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div [ngClass]="{'col-sm-6': !tabela, 'col-sm-12':  tabela}">
+    <br>
+    <app-titulo [titulo]="titulo">
+      <button class="btn btn-sm btn-outline-success" (click)="departamentoNovo()">Cadastrar Departamento</button>
+    </app-titulo>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Visualizar</th>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Sigla</th>
+          <th scope="col">Opções</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr *ngFor="let dep of deptos">
+          <td><button class="btn btn-sm btn-outline-danger" (click)="consultarFuncs(dep)"> Funcionários</button></td>
+          <td scope="row">{{dep.id}}</td>
+          <td>{{ dep.nome }}</td>
+          <td>{{ dep.sigla }}</td>
+          <td>
+            <button (click)="deptSelect(dep)" style="margin-right: 10px;" class="btn btn-sm btn-outline-primary">Editar</button>
+            <button class="btn btn-sm btn-outline-danger" (click)="deletar(dep.id)">Excluir</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
